@@ -5,8 +5,12 @@
 
 var fs = require("fs");
 var xml = require("xml");
+
+var fileWrite = function() {
+    console.log("Instantiating fileWrite class");
+}
 //writing in .txt file
-function writeTxt(fileName, data) {
+fileWrite.prototype.writeTxt =  function(fileName, data) {
 	if(data != null){
 		var records = data.students;
 		//Assigning first line
@@ -15,15 +19,25 @@ function writeTxt(fileName, data) {
 		for (var i = 0; i < records.length; i++) {
 			result += "\n "+ records[i].id + " | " + records[i].fName + " | " + records[i].lName + " | " + records[i].score;
 		}
-		fs.writeFile(fileName, result);
-		console.log("File "+ fileName + " is created..! \n Data :\n" + result);
+		//checking if file already exist or not
+		fs.exists("./" + fileName, function(exist) {
+			if(exist){
+				fs.writeFile(fileName, result);
+				console.log("File "+ fileName + " is overwritten with new data. \n" + result);
+			}
+			else{
+				fs.writeFile(fileName, result);
+				console.log("File "+ fileName + " is created..! \n Data :\n" + result);
+			}
+		});
+		
 	}
 	else{
 		console.log("Error : Object is empty ");
 	}
 }
 //writing in .xml file
-function writeXml(fileName, data) {
+fileWrite.prototype.writeXml =  function(fileName, data) {
 	if(data != null){
 		var sorted = data.students;
 		//creating string for json
@@ -38,14 +52,21 @@ function writeXml(fileName, data) {
 			}	
 		}
 		result += '] }';
-		//converting string to Json object and passing to xml()
-		fs.writeFile(fileName, xml(JSON.parse(result), true));
-		console.log("File " + fileName + " is created..! \n Data :\n" + xml(JSON.parse(result), true));
+		//checking if file already exist or not
+		fs.exists("./" + fileName, function(exist) {
+			if(exist){
+				//converting string to Json object and passing to xml()
+				fs.writeFile(fileName, xml(JSON.parse(result), true));
+				console.log("File "+ fileName + " is overwritten with new data. \n" + xml(JSON.parse(result), true));
+			}
+			else{
+				fs.writeFile(fileName, xml(JSON.parse(result), true));
+				console.log("File "+ fileName + " is created..! \n Data :\n" + xml(JSON.parse(result), true));
+			}
+		});
 	}
 	else{
 		console.log("Error : Object is empty ");
 	}
 }
-
-exports.writeTxt = writeTxt;
-exports.writeXml = writeXml;
+exports.fileWrite = new fileWrite();
