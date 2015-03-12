@@ -3,19 +3,19 @@
 
 var fs = require("fs");
 //function to read file
-function read(fileName, call) {
+function read(fileName, callback) {
 	
 		console.log("Reading data from file...!");
 		var data = fs.readFile(fileName, function(err, data){
             if(err) {
                 //calling callback function with error
-                call("No Such file found : " + fileName, null);
+                callback("No Such file found : " + fileName, null);
             }
             else {
                 //checking valid json object
-                if(IsJsonString(data)){
+                if(isJsonString(data)){
                     //calling callback function with data
-                    call(null,JSON.parse(data));
+                    callback(null,JSON.parse(data));
                 }      
             }
         });
@@ -24,7 +24,7 @@ function read(fileName, call) {
 exports.read = read;
 
 //Function which checks given object is valid json or not.
-function IsJsonString(str) {
+function isJsonString(str) {
     try {
         JSON.parse(str);
     } catch (e) {
