@@ -23,4 +23,9 @@ fileR.read("source.json", function(err, data) {
 
 });
 
+/**
+1. It will be great if you can use javascript oops concept for create modules
 
+2. Use proper names for function params e.g. use callback instead call
+
+*/
