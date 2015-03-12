@@ -2,34 +2,37 @@
  @author Nikhil */
 
 var fs = require("fs");
-//function to read file
-function read(fileName, callback) {
-	
-		console.log("Reading data from file...!");
-		var data = fs.readFile(fileName, function(err, data){
-            if(err) {
-                //calling callback function with error
-                callback("No Such file found : " + fileName, null);
-            }
-            else {
-                //checking valid json object
-                if(isJsonString(data)){
-                    //calling callback function with data
-                    callback(null,JSON.parse(data));
-                }      
-            }
-        });
-		
+
+var fileRead = function(){
+    console.log("Instantiating fileRead class");
 }
-exports.read = read;
+//function to read file
+fileRead.prototype.read = function(fileName, callback) {
+    console.log("Searching for file...!");   
+    var data = fs.readFile(fileName, function(err, data){
+        if(err) {
+           //calling callback function with error
+            callback("No Such file found : " + fileName, null);
+        }
+        else {
+            //checking valid json object
+            if(isJsonString(data)){
+                //calling callback function with data
+                callback(null,JSON.parse(data));
+            }      
+        }
+    });     
+}
 
 //Function which checks given object is valid json or not.
 function isJsonString(str) {
     try {
         JSON.parse(str);
     } catch (e) {
-    	console.log("Not a valid Json, " + e);
+        console.log("Not a valid Json, " + e);
         return false;
     }
     return true;
 }
+
+exports.fileRead = new fileRead();
