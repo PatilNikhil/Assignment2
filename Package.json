@@ -1,0 +1,10 @@
+{
+  "name": "Assignment2",
+  "description": "Sample project for creating Modules",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+  	
+    "xml" : "1.0.0"
+  }
+}
